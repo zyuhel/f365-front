@@ -6,6 +6,7 @@ export const useF365Store = defineStore('f365', {
   state: () => ({
     currentDay: [],
     currentUser: [],
+    currentUserLinks: [],
     currentUserStats: {},
     best: [],
     searchResults: [],
@@ -55,6 +56,9 @@ export const useF365Store = defineStore('f365', {
     },
     getStatsForUser(state){
       return state.currentUserStats
+    },
+    getLinksForUser(state){
+      return state.currentUserLinks
     },
     getEntriesForDay(state){
       return state.currentDay
@@ -168,6 +172,7 @@ export const useF365Store = defineStore('f365', {
       this.currentUser = [];
       const { data } = await axios ('https://f365.zyuhel.ru/api/username/' + user)
       this.currentUser = data.rows
+      this.currentUserLinks = data.links
       await this.getForUserStats(user)
     },
     async getForUserStats(user: string) {

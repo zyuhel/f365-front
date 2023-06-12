@@ -18,6 +18,9 @@
     return store.getStatsForUser;
   });
 
+  const getForUserLinks = computed(() => {
+    return store.getLinksForUser;
+  });
   function sortBy(field, isAsc) {
     store.sortBy(field, isAsc)
   }
@@ -147,7 +150,10 @@ img {
 </style>
 <template>
   <main>
-    <h3>Подборка фотографий {{ user }}<span style="margin-left:1rem"><a href="" class="uk-icon-button" uk-icon="twitter" uk-tooltip="fff"></a><a href="" class="uk-icon-button" uk-icon="500px" uk-tooltip="fff"></a></span></h3>
+    <h3>Подборка фотографий {{ user }}<span style="margin-left:1rem">
+      <a v-if="user[0]=='@'" class="uk-icon-button" target="_blank" :href="`https://t.me/${user.substring(1)}`" uk-tooltip="Написать в Telegram"><font-awesome-icon icon="fa-brands fa-telegram" /></a>
+      <a v-for="link in getForUserLinks" :key="link.link" class="uk-icon-button" target="_blank" :uk-tooltip="link.tooltip" :href="link.link"><font-awesome-icon :icon="link.link_type" /></a>
+    </span></h3>
     <ul uk-tab>
       <li><a href="#photos">Фотографии</a></li>
       <li><a href="#stats">Статистика</a></li>
