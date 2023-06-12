@@ -123,10 +123,5 @@
           ></a>
           </div>
     </div>
-
-    <div v-for="entry in getEntries" :key="entry.message_id">
-      {{ entry.message_id }} {{ entry.username }} {{ entry.place }}
-    </div>
-
   </main>
 </template>
