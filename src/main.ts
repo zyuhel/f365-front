@@ -9,12 +9,13 @@ import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTwitter, fa500px, faInstagram, faVk, faTelegram } from '@fortawesome/free-brands-svg-icons'
-
+import {faGlobe} from '@fortawesome/free-solid-svg-icons'
 library.add(faTwitter)
 library.add(fa500px)
 library.add(faInstagram)
 library.add(faVk)
 library.add(faTelegram)
+library.add(faGlobe)
 
 // import VueSilentbox from 'vue-silentbox'
 import 'vue-silentbox/dist/style.css'
