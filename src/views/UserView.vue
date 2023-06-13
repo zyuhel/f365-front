@@ -166,7 +166,7 @@ img {
         <div class="uk-navbar-left"><router-link :class="{ active: isCurrent('last')}" to="?sort=last">Самые новые</router-link></div>
         <div class="uk-navbar-left"><router-link :class="{ active: isCurrent('upvotes')}" to="?sort=upvotes">Лайки</router-link></div>
         <div class="uk-navbar-left"><router-link :class="{ active: isCurrent('downvotes')}" to="?sort=downvotes">Говно</router-link></div>
-        <div class="uk-navbar-left  uk-visible@m"><router-link :class="{ active: isCurrent('controversial')}" to="?sort=controversial">Противоречивости</router-link></div>
+        <div class="uk-navbar-left  uk-visible@m"><router-link :class="{ active: isCurrent('controversial')}" to="?sort=controversial">Противоречивые</router-link></div>
 
       </nav>
       <MasonryView :items="getForUser" :userpage="true" :key="`${user}_${sort}`"/>
