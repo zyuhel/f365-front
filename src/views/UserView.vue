@@ -160,7 +160,7 @@ img {
     </ul>
     <ul class="uk-switcher uk-margin">
     <li>
-      <nav class="uk-navbar-container sort-navbar uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-bottom uk-margin-remove-top" uk-navbar >
+      <nav class="uk-navbar-container uk-margin-remove-left sort-navbar uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-bottom uk-margin-remove-top" uk-navbar >
         <div class="uk-navbar-left uk-visible@m">Сортировка: </div>
         <div class="uk-navbar-left"><router-link :class="{ active: isCurrent('early')}" to="?sort=early">Самые ранние</router-link></div>
         <div class="uk-navbar-left"><router-link :class="{ active: isCurrent('last')}" to="?sort=last">Самые новые</router-link></div>

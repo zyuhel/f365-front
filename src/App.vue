@@ -8,7 +8,7 @@ UIkit.use(Icons)
 </script>
 
 <template>
-  <nav class="uk-navbar-container uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-bottom uk-margin-remove-top" uk-navbar >
+  <nav class="uk-navbar-container uk-margin-remove-left uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-bottom uk-margin-remove-top" uk-navbar >
     <div class="uk-navbar-left"><router-link to="/best">Лучшее</router-link></div>
     <div class="uk-navbar-center"><router-link to="/user">По автору</router-link></div>
     <div class="uk-navbar-right"><router-link to="/about">О проекте</router-link></div>
