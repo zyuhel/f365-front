@@ -14,6 +14,15 @@
       <p><router-link to="/stats">Немного статистики</router-link></p>
 
       <p>Все претензии кидать в <a href="https://t.me/zyuhel" target="_blank">@zyuhel</a></p>
+      <hr>
+      <h4>Как поучаствовать?</h4>
+      <ol>
+        <li>Присоединяйтесь к <a href="https://t.me/factory_chat" target="_blank">Заводскому чату</a>. Входите, представляйтесь, показывайте свои фотографии.</li>
+        <li>Пишите боту - <a href="https://t.me/f365bot" target="_blank">@f365bot</a></li>
+        <li>Присылайте фотографию снятую в этот день</li>
+        <li>....</li>
+        <li>Становитесь лучше</li>
+      </ol>
     </div>
   </div>
 </template>
