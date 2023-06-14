@@ -16,6 +16,7 @@ export const useF365Store = defineStore('f365', {
       'longest_streaks':[],
       'days_participants':[],
       'participants':[],
+      'most_photos':[],
       'average_upvotes':[],
       'best_works':[],
       'controversial_works':[],
@@ -100,6 +101,10 @@ export const useF365Store = defineStore('f365', {
       const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest_win')
       this.stats.longest_win = data.rows
     },
+    async getMostPhotos() {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_photos')
+      this.stats.most_photos = data.rows
+    },
     async getLongestLeader() {
       const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest_leader')
       this.stats.longest_leader = data.rows
@@ -130,6 +135,7 @@ export const useF365Store = defineStore('f365', {
       await this.getLongest();
       await this.getDaysPart();
       await this.getBestStats();
+      await this.getMostPhotos();
       await this.getWorseStats();
       await this.getLongestWins();
       await this.getLongestLeader();
