@@ -18,16 +18,17 @@
   function setTitle() {
     document.title = 'F365 - Случайные лучшие '
   }
+
   if ( !route.query?.seed) {
     let seed = generateSeed()
-    router.push({ path: '/best', query: { seed: seed  }})
+    router.replace({ path: '/best', query: { seed: seed  }})
     store.getBest(21, seed);
   }
 
-  watch (()=>route.query.seed, async newSortValue => { if (!newSortValue) { router.push({ path: '/best', query: { seed: generateSeed()  }})} else {await store.getBest(21,( newSortValue?.toString()))} })
+  watch (()=>route.query.seed, async newSortValue => { if (!newSortValue) { router.replace({ path: '/best', query: { seed: generateSeed()  }})} else {await store.getBest(21,( Number.parseInt(newSortValue?.toString())))} })
   onMounted(() => {
     if (route.query && route.query.seed)
-      store.getBest(21, route.query.seed.toString());
+      store.getBest(21,Number.parseInt(route.query.seed.toString()));
   });
 
 

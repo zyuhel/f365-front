@@ -147,7 +147,7 @@ export const useF365Store = defineStore('f365', {
       await this.getControversialStats();
     },
     // since we rely on `this`, we cannot use an arrow function
-    async getBest(limit: any, seed: string) {
+    async getBest(limit: any, seed: number) {
       if (!limit) limit = 20
       const { data } = await axios ('https://f365.zyuhel.ru/api/best?limit=' + limit + '&seed='+seed)
       this.best = data.rows
