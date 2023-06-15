@@ -151,7 +151,7 @@ img {
 <template>
   <main>
     <h3>Подборка фотографий {{ user }}<span style="margin-left:1rem">
-      <a v-if="user[0]=='@'" class="uk-icon-button" target="_blank" :href="`https://t.me/${user.substring(1)}`" uk-tooltip="Написать в Telegram"><font-awesome-icon icon="fa-brands fa-telegram" /></a><span v-if="user[0]=='@' && getForUserLinks"> | </span>
+      <a v-if="user[0]=='@'" class="uk-icon-button" target="_blank" :href="`https://t.me/${user.substring(1)}`" uk-tooltip="Написать в Telegram"><font-awesome-icon icon="fa-brands fa-telegram" /></a><span v-if="user[0]=='@' && getForUserLinks.length>0"> | </span>
       <a v-for="link in getForUserLinks" :key="link.link" class="uk-icon-button" target="_blank" :uk-tooltip="link.tooltip" :href="link.link"><font-awesome-icon :icon="link.link_type" /></a>
     </span></h3>
     <ul uk-tab>
