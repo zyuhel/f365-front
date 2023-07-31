@@ -120,7 +120,10 @@
             loading='lazy'
             :src="silentboxItem.src"
             :width="500"
-          ></a>
+          >
+
+          </a>
+<hr>
           </div>
     </div>
   </main>
