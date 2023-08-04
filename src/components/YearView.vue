@@ -1,23 +1,12 @@
 <script setup lang="ts">
-import PhotoCard from "@/components/PhotoCard.vue";
 import { useF365Store } from "@/stores/f365";
 import {computed, onMounted, watch} from "vue";
 const props = defineProps(['year'])
 
-/*defineProps<{
-  items: array, userpage: boolean
-}>()*/
-let year=2023;
 const store = useF365Store();
 
-function daysInMonth(month, year) {
-  return new Date(year, month, 0).getDate();
-}
-function startingDay(month,year) {
-  let day = new Date(year, month, 0).getDay()-1;
-  if (day>-1) return day
-  return 6;
-}
+
+
 function getStyle(item) {
   let num = item.width*200/item.height
  return 'width:'+num+'px;flex-grow:'+num;
@@ -26,38 +15,9 @@ function getBottomPadding(item) {
   return 'padding-bottom:'+(item.height/item.width*100)+'%';
 }
 const getItems = computed (() => {
-  let items = store.getFirsters
-  console.log(items)
-  return items
+  return store.getFirsters
 })
-const getMonths = computed( () => {
-  let months = [];
-  let j = 0
-  let entries = store.getFirsters
-  let stop = false;
-  for (let i = 1; i <= 12; i++) {
-    if (!stop) {
-      let month = {
-        'days': daysInMonth(i, year),
-        'offset': startingDay(i, year),
-        'starting_day': 0,
-        works: [],
-        'year': year,
-        'month': i
-      }
-      for (let m = 0; m < month.days; m++) {
-        if (entries[j + m])
-          month.works.push(entries[j + m])
-        else stop = true
-      }
-      j = j + month.days;
-      months.push(month)
-    }
-  }
-  console.log(months)
-  return months;
-});
-let items = [];
+
 function setTitle() {
   document.title = 'F365 - Победители за ' + props.year
 }
@@ -98,7 +58,7 @@ img {
 
 </style>
 <template>
-  <h3>Победители за {{props.year}}</h3>
+  <h3><router-link :to="`/year/${parseInt(props.year)-1}`" v-if="parseInt(props.year)>2019" :title="parseInt(props.year)-1">&lt;</router-link><span v-else>&lt;</span> Победители за {{props.year}} <router-link :to="`/year/${parseInt(props.year)+1}`" v-if="parseInt(props.year)<2023" :title="parseInt(props.year)+1">&gt;</router-link><span v-else>&gt;</span></h3>
 
   <section uk-lightbox="animation: slide; toggle: .lightbox-link">
     <div v-for="item in getItems" class=" uk-flex" :key="item.message_id" :style="getStyle(item)">
