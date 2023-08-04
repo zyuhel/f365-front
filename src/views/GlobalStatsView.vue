@@ -216,20 +216,20 @@ img {
       <p>Всего участников - {{getStats.avgs.count_user}}</p>
       <p>Всего фотографий - {{getStats.avgs.total_count}}</p>
       <h4>Фотографии с наибольшим количестом лайков:</h4>
-      <div class="uk-flex-row uk-flex">
-      <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.best_works">
+      <div class="uk-flex-row uk-flex" uk-lightbox="animation: slide; toggle: .lightbox-link">
+      <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.best_works" >
         <PhotoCard :item="item" :key="item.message_id" :show_detail="true"></PhotoCard>
       </div>
       </div>
       <h4>Фотографии с наибольшим количестом дизлайков:</h4>
-      <div class="uk-flex-row uk-flex">
-        <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.worst_works">
+      <div class="uk-flex-row uk-flex" uk-lightbox="animation: slide; toggle: .lightbox-link">
+        <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.worst_works" >
           <PhotoCard :item="item" :key="item.message_id" :show_detail="true"></PhotoCard>
         </div>
       </div>
       <h4>Наиболее спорные фотографии:</h4>
-      <div class="uk-flex-row uk-flex">
-        <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.controversial_works">
+      <div class="uk-flex-row uk-flex" uk-lightbox="animation: slide; toggle: .lightbox-link">
+        <div class="uk-width-1-3 uk-padding-small" v-for="item in getStats.controversial_works" >
           <PhotoCard :item="item" :key="item.message_id" :show_detail="true"></PhotoCard>
         </div>
       </div>
