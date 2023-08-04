@@ -5,7 +5,8 @@ import BestView from '../views/BestView.vue'
 import UserView from "@/views/UserView.vue";
 import UserViewSearch from "@/views/UserViewSearch.vue";
 import GlobalStatsView from "@/views/GlobalStatsView.vue";
-
+import CalendarView from "@/components/CalendarView.vue";
+import YearView from "@/components/YearView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,17 @@ const router = createRouter({
       path: '/best',
       name: 'best',
       component: BestView
+    },
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: CalendarView
+    },
+    {
+      path: '/year/:year',
+      props: true,
+      name: 'year',
+      component: YearView
     },
     {
       path: '/stats',

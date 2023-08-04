@@ -12,7 +12,7 @@
   const props = defineProps(['user'])
   const store = useF365Store();
   const getForUser = computed(() => {
-    return store.getEntriesForUser;
+      return store.getEntriesForUser;
   });
   const getForUserStats = computed(() => {
     return store.getStatsForUser;
@@ -33,6 +33,7 @@
   function setTitle() {
     document.title = 'F365 - Работы пользователя ' + props.user
   }
+
   async function sortByParam(argument) {
     switch (argument) {
       case 'early':

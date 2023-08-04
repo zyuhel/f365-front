@@ -9,6 +9,7 @@ export const useF365Store = defineStore('f365', {
     currentUserLinks: [],
     currentUserStats: {},
     best: [],
+    firsters: [],
     searchResults: [],
     stats:{
       'least_participants':[],
@@ -30,6 +31,9 @@ export const useF365Store = defineStore('f365', {
     }
   }),
   getters: {
+    getFirsters(state) {
+      return state.firsters
+    },
     getBestImages(state) {
       for (const i in state.best) {
         state.best[i].resizedHeight = Math.floor(state.best[i].height/state.best[i].width*284)
@@ -128,6 +132,10 @@ export const useF365Store = defineStore('f365', {
     async getAvgs() {
       const { data } = await axios ('https://f365.zyuhel.ru/api/stats/avgs')
       this.stats.avgs = data
+    },
+    async getFirst( interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/firstplaces?interval=' + interval)
+      this.firsters =  data.rows
     },
     async getStats() {
       await this.getMost();
