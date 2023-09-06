@@ -1,7 +1,16 @@
 <script setup lang="ts">
+
 defineProps<{
   item: object, show_detail: boolean, for_calendar: boolean
 }>()
+
+
+function getCurrentDay() {
+  let startDate = new Date('2019-12-01');
+  let currentDate = new Date();
+  let difference = currentDate.getTime() - startDate.getTime();
+  return Math.ceil(difference / (1000 * 3600 * 24));
+}
 </script>
 
 <template>
@@ -31,7 +40,7 @@ defineProps<{
     line-height: 5;
     font-size: 2rem;
     -webkit-transform: rotate(-45deg); text-align: center;"><span v-if="item.place===1">🥇</span><span  v-if="item.place===2">🥈</span><span  v-if="item.place===3">🥉</span></div>
-          <div v-if="show_detail && (item.day_number >2 && !(item.upvotes || item.downvotes ))" style="background-color: rgba(68, 68, 68,0.5);
+          <div v-if="show_detail && (item.day_number>(getCurrentDay()-2) && !(item.upvotes || item.downvotes ))" style="background-color: rgba(68, 68, 68,0.5);
     -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,.2);
     box-shadow: 0 0 3px 2px rgba(0,0,0,.2);
     right: 0;
@@ -40,7 +49,7 @@ defineProps<{
     color: rgb(255, 255, 255);
     font-size: 0.7rem;
     text-align: center;
-    padding: 5px;" uk-tooltip="Результаты голосования отсутствуют / или за работу никто не проголосовал">
+    padding: 5px;" uk-tooltip="Результаты голосования отсутствуют">
             🕑
           </div>
           <div v-if="show_detail && (item.upvotes || item.downvotes)" style="background-color: rgba(68, 68, 68,0.5);
