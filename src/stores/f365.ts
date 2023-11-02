@@ -28,6 +28,24 @@ export const useF365Store = defineStore('f365', {
       'most_leader':[],
       'most_win':[],
       'avgs':{},
+    },
+    periodStats:{
+      'least_participants':[],
+      'max_participants':[],
+      'longest_streaks':[],
+      'days_participants':[],
+      'participants':[],
+      'most_photos':[],
+      'average_upvotes':[],
+      'best_works':[],
+      'controversial_works':[],
+      'worst_works':[],
+      'longest_win':[],
+      'longest_leader':[],
+      'finishers': [],
+      'most_leader':[],
+      'most_win':[],
+      'avgs':{},
     }
   }),
   getters: {
@@ -43,6 +61,9 @@ export const useF365Store = defineStore('f365', {
     },
     getGlobalStats(state) {
       return state.stats
+    },
+    getPeriodCachedStats(state) {
+      return state.periodStats
     },
     getImagesFromEntries(state) {
       const entries = state.currentDay
@@ -89,18 +110,6 @@ export const useF365Store = defineStore('f365', {
       const { data } = await axios ('https://f365.zyuhel.ru/api/stats/days_participants')
       this.stats.days_participants = data.rows
     },
-    async getBestStats() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/best_works')
-      this.stats.best_works = data.rows
-    },
-    async getWorseStats() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/worst_works')
-      this.stats.worst_works = data.rows
-    },
-    async getControversialStats() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/controversial_works')
-      this.stats.controversial_works = data.rows
-    },
     async getLongestWins() {
       const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest_win')
       this.stats.longest_win = data.rows
@@ -137,9 +146,79 @@ export const useF365Store = defineStore('f365', {
       const { data } = await axios ('https://f365.zyuhel.ru/api/firstplaces?interval=' + interval)
       this.firsters =  data.rows
     },
-    async getStats() {
-      await this.getMost();
-      await this.getLeast();
+    async resetPeriodStats() {
+      this.periodStats= {
+            'least_participants':[],
+            'max_participants':[],
+            'longest_streaks':[],
+            'days_participants':[],
+            'participants':[],
+            'most_photos':[],
+            'average_upvotes':[],
+            'best_works':[],
+            'controversial_works':[],
+            'worst_works':[],
+            'longest_win':[],
+            'longest_leader':[],
+            'finishers': [],
+            'most_leader':[],
+            'most_win':[],
+            'avgs':{},
+      }
+    },
+    async getBestStatsForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/best_works?interval=' + interval)
+      return data.rows
+    },
+    async getWorseStatsForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/worst_works?interval=' + interval)
+      return data.rows
+    },
+    async getControversialStatsForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/controversial_works?interval=' + interval)
+      return data.rows
+    },
+    async getMostForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_participants?interval=' + interval)
+      return data.rows
+    },
+    async getLeastForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/least_participants?interval=' + interval)
+      return data.rows
+    },
+    async getMostPhotosForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_photos?interval=' + interval)
+      return data.rows
+    },
+    async getMostLeaderForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_leader?interval=' + interval)
+      return data.rows
+    },
+    async getMostWinForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_win?interval=' + interval)
+      return data.rows
+    },
+    async getAverageUpvotesForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/average_upvotes?interval=' + interval)
+      return data.rows
+    },
+    async getAvgsForInterval(interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/avgs?interval=' + interval)
+      return data
+    },
+    async getPeriodStats(interval: string) {
+      await this.resetPeriodStats();
+      this.periodStats.best_works = await this.getBestStatsForInterval(interval);
+      this.periodStats.worst_works = await this.getWorseStatsForInterval(interval);
+      this.periodStats.controversial_works = await this.getControversialStatsForInterval(interval);
+      this.periodStats.least_participants = await this.getLeastForInterval(interval);
+      this.periodStats.max_participants = await this.getMostForInterval(interval);
+      this.periodStats.most_photos = await this.getMostPhotosForInterval(interval);
+      this.periodStats.average_upvotes = await this.getAverageUpvotesForInterval(interval);
+      this.periodStats.most_win = await this.getMostWinForInterval(interval);
+      this.periodStats.most_leader = await this.getMostLeaderForInterval(interval);
+      this.periodStats.avgs = await this.getAvgsForInterval(interval);
+      /*
       await this.getLongest();
       await this.getDaysPart();
       await this.getBestStats();
@@ -151,8 +230,25 @@ export const useF365Store = defineStore('f365', {
       await this.getMostLeader();
       await this.getMostWin();
       await this.getAvgs();
-      await this.getAverageUpvotes();
-      await this.getControversialStats();
+      await this.getControversialStats();*/
+    },
+    async getStats() {
+      let interval = '';
+      await this.getLongest();
+      await this.getDaysPart();
+      await this.getLongestWins();
+      await this.getLongestLeader();
+      await this.getFinishers();
+      this.stats.avgs = await this.getAvgsForInterval(interval);
+      this.stats.least_participants = await this.getLeastForInterval(interval);
+      this.stats.max_participants = await this.getMostForInterval(interval);
+      this.stats.most_photos = await this.getMostPhotosForInterval(interval);
+      this.stats.best_works = await this.getBestStatsForInterval(interval);
+      this.stats.worst_works = await this.getWorseStatsForInterval(interval);
+      this.stats.controversial_works = await this.getControversialStatsForInterval(interval);
+      this.stats.average_upvotes = await this.getAverageUpvotesForInterval(interval);
+      this.stats.most_win = await this.getMostWinForInterval(interval);
+      this.stats.most_leader = await this.getMostLeaderForInterval(interval);
     },
     // since we rely on `this`, we cannot use an arrow function
     async getBest(limit: any, seed: number) {
