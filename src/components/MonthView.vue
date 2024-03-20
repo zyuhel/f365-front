@@ -27,8 +27,8 @@ function setTitle() {
   document.title = 'F365 - Призеры за ' + props.month
 }
 let loading = ref(true);
-let currentYear = 0
-let currentMonth= 0
+let currentYear
+let currentMonth
 const getLoading = computed(() => {
   return loading.value;
 });
@@ -182,7 +182,7 @@ img {
 }
 </style>
 <template>
-  <h3><router-link :to="`/month/${prevLink()}`" v-if="prevLink()" :title="prevLink()">&lt;</router-link><span v-else>&lt;</span> Победители за <router-link  :to="`/year/${currentYear}`">{{currentYear}}</router-link>-{{formatMonth(currentMonth)}} <router-link :to="`/month/${nextLink()}`" v-if="nextLink()" :title="nextLink()">&gt;</router-link><span v-else>&gt;</span></h3>
+  <h3><router-link :to="`/month/${prevLink()}`" v-if="prevLink()" :title="prevLink()">&lt;</router-link><span v-else>&lt;</span> Тройки лучших за <router-link  :to="`/year/${currentYear}`">{{currentYear}}</router-link>-{{formatMonth(currentMonth)}} <router-link :to="`/month/${nextLink()}`" v-if="nextLink()" :title="nextLink()">&gt;</router-link><span v-else>&gt;</span></h3>
   <ul uk-tab>
     <li><a href="#photos">Фотографии</a></li>
     <li><a href="#stats">Статистика</a></li>
