@@ -10,6 +10,7 @@ export const useF365Store = defineStore('f365', {
     currentUserStats: {},
     best: [],
     firsters: [],
+    colored:[],
     searchResults: [],
     stats:{
       'least_participants':[],
@@ -51,6 +52,9 @@ export const useF365Store = defineStore('f365', {
   getters: {
     getFirsters(state) {
       return state.firsters
+    },
+    getColored(state) {
+      return state.colored
     },
     getBestImages(state) {
       for (const i in state.best) {
@@ -145,6 +149,15 @@ export const useF365Store = defineStore('f365', {
     async getFirst( interval: string) {
       const { data } = await axios ('https://f365.zyuhel.ru/api/firstplaces?interval=' + interval)
       this.firsters =  data.rows
+    },
+    async getPrizes( interval: string) {
+      const { data } = await axios ('https://f365.zyuhel.ru/api/prizeplaces?interval=' + interval)
+      this.firsters =  data.rows
+    },
+    async getColor( color: string, interval?: string) {
+      if (!interval) interval='';
+      const { data } = await axios ('https://f365.zyuhel.ru/api/images_by_color?color='+color+'&interval=' + interval)
+      this.colored =  data.rows
     },
     async resetPeriodStats() {
       this.periodStats= {

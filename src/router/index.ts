@@ -7,6 +7,8 @@ import UserViewSearch from "@/views/UserViewSearch.vue";
 import GlobalStatsView from "@/views/GlobalStatsView.vue";
 import CalendarView from "@/components/CalendarView.vue";
 import YearView from "@/components/YearView.vue";
+import MonthView from "@/components/MonthView.vue";
+import ColorView from "@/components/ColorView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,18 @@ const router = createRouter({
       props: true,
       name: 'year',
       component: YearView
+    },
+    {
+      path: '/month/:month',
+      props: true,
+      name: 'month',
+      component: MonthView
+    },
+    {
+      path: '/color/:color',
+      props: true,
+      name: 'color',
+      component: ColorView
     },
     {
       path: '/stats',

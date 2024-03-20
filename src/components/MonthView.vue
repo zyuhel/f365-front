@@ -2,7 +2,7 @@
 import { useF365Store } from "@/stores/f365";
 import {computed, onMounted, ref, watch} from "vue";
 import PhotoCard from "@/components/PhotoCard.vue";
-const props = defineProps(['year'])
+const props = defineProps(['month'])
 
 const store = useF365Store();
 
@@ -22,45 +22,63 @@ const getItems = computed (() => {
 const getStats = computed(() => {
   return store.getPeriodCachedStats;
 });
-function getMonths() {
-  let year= parseInt(props.year)
-  if (year===2019) {
-    return [12]
-  }
-  if (year<new Date().getFullYear())
-    return ['01','02','03','04','05','06','07','08','09','10','11','12']
-  let retval=[]
-  for (let i=0; i<=new Date().getMonth(); i++) {
-    if (i<9)
-      retval.push('0'+(i+1));
-    else
-      retval.push(i+1)
-  }
-  return retval
-}
+
 function setTitle() {
-  document.title = 'F365 - Победители за ' + props.year
+  document.title = 'F365 - Призеры за ' + props.month
 }
 let loading = ref(true);
+let currentYear = 0
+let currentMonth= 0
 const getLoading = computed(() => {
   return loading.value;
 });
 onMounted(async () => {
-  store.getFirst(props.year);
+  store.getPrizes(props.month);
   setTitle()
-  await  store.getPeriodStats(props.year)
+  let parts = props.month.split('-')
+  currentYear=parseInt(parts[0])
+  currentMonth=parseInt(parts[1])
+  await  store.getPeriodStats(props.month)
   loading.value = false;
 });
 watch(
-    () => props.year,
+    () => props.month,
     async newId => {
-      store.getFirst(props.year);
+      store.getPrizes(props.month);
       setTitle()
+      let parts = props.month.split('-')
+      currentYear=parseInt(parts[0])
+      currentMonth=parseInt(parts[1])
       loading.value = true;
-      await store.getPeriodStats(props.year)
+      await store.getPeriodStats(props.month)
       loading.value = false;
     }
 )
+function nextLink() {
+  let year= currentYear
+  let month = currentMonth
+  let dt = new Date()
+  if (dt.getFullYear()===currentYear && (dt.getMonth()+1)===currentMonth) return false
+  if (month === 12)
+    return (year+1)+'-'+'01'
+  if (month < 9)
+    return (year) + '-0' + (month+1)
+  return (year) + '-' + (month+1)
+}
+function formatMonth(month) {
+  if (month<10) return '0'+month
+  return month
+}
+function prevLink() {
+  let year= currentYear
+  let month = currentMonth
+  if (year===2019 && month===12) return false
+  if (month === 1)
+    return (year-1)+'-'+'12'
+  if (month < 11)
+    return (year) + '-0' + (month-1)
+  return (year) + '-' + (month-1)
+}
 </script>
 <style scoped>
 section {
@@ -164,7 +182,7 @@ img {
 }
 </style>
 <template>
-  <h3><router-link :to="`/year/${parseInt(props.year)-1}`" v-if="parseInt(props.year)>2019" :title="parseInt(props.year)-1">&lt;</router-link><span v-else>&lt;</span> Победители за {{props.year}} <router-link :to="`/year/${parseInt(props.year)+1}`" v-if="parseInt(props.year)<new Date().getFullYear()" :title="parseInt(props.year)+1">&gt;</router-link><span v-else>&gt;</span></h3>
+  <h3><router-link :to="`/month/${prevLink()}`" v-if="prevLink()" :title="prevLink()">&lt;</router-link><span v-else>&lt;</span> Победители за <router-link  :to="`/year/${currentYear}`">{{currentYear}}</router-link>-{{formatMonth(currentMonth)}} <router-link :to="`/month/${nextLink()}`" v-if="nextLink()" :title="nextLink()">&gt;</router-link><span v-else>&gt;</span></h3>
   <ul uk-tab>
     <li><a href="#photos">Фотографии</a></li>
     <li><a href="#stats">Статистика</a></li>
@@ -186,9 +204,6 @@ img {
   <li>
     <div class="lds-spinner" v-if="getLoading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <div v-else>
-      <p>Месяца: <span v-for=" (item, index) in getMonths()" :key="`${props.year}_month_${item}`">
-        <router-link :to="`/month/${props.year}-${item}`">{{ item }}</router-link> <span v-if="index !== getMonths().length - 1">, </span>
-      </span>  </p>
       <p>Дни с максимальным количеством участников: <span v-for=" (item, index) in getStats.max_participants" :key="`mp_${item.day_number}`">
         <router-link :to="`/day/${item.day_number}`">День {{item.day_number}}</router-link> ({{item.cnt}})<span v-if="index !== getStats.max_participants.length - 1">, </span>
       </span> </p>
