@@ -14,6 +14,14 @@
   const getLoading = computed(() => {
     return loading.value;
   });
+
+  const currentYear = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).getFullYear()
+  const startYear = 2019
+  const years = Array.from(
+      { length: currentYear - startYear + 1 },
+      (_, index) => startYear + index
+  )
+
   function setTitle() {
     document.title = 'F365 - Статистика'
   }
@@ -188,7 +196,12 @@ img {
       <p>Дни с минимальным количеством участников: <span v-for=" (item, index) in getStats.least_participants" :key="`ml_${item.day_number}`">
         <router-link :to="`/day/${item.day_number}`">День {{item.day_number}}</router-link> ({{item.cnt}})<span v-if="index !== getStats.least_participants.length - 1">, </span>
       </span> </p>
-      <p>Работы победители по годам: <router-link to="/year/2019">2019</router-link>, <router-link to="/year/2020">2020</router-link>, <router-link to="/year/2021">2021</router-link>, <router-link to="/year/2022">2022</router-link>, <router-link to="/year/2023">2023</router-link></p>
+      <p>
+        Работы победители по годам:
+        <template v-for="(year, index) in years" :key="year">
+          <router-link :to="`/year/${year}`">{{ year }}</router-link>{{ index === years.length - 1 ? '' : ', ' }}
+        </template>
+      </p>
       <p>Самые длинные цепочки без пропусков: <span v-for=" (item, index) in getStats.longest_streaks" :key="`ls_${item.username}`">
         <span v-if="item.username[0]!=='@'">{{ item.username }}</span><span v-else><a style="    display: inline-block;" :href="`https://t.me/${item.username.substring(1)}`" target="_blank">{{item.username}}</a></span> <router-link :to="`/user/${item.username}`" style="    display: inline-block;" class="uk-icon-link" uk-icon="album"></router-link> ({{item.longest_sequence}})<span v-if="index !== getStats.longest_streaks.length - 1">, </span>
       </span> </p>
