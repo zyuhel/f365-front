@@ -174,7 +174,7 @@ img {
     </li>
      <li>
         <ul>
-          <li>Всего фотографий опубликованно: {{getForUserStats.count}}</li>
+          <li>Всего фотографий опубликовано: {{getForUserStats.count}}</li>
           <li>Самая длинная серия: {{getForUserStats.longest_sequence}}</li>
           <li>Среднее количество лайков на фотографии: {{getForUserStats.upvotes_avg}}</li>
           <li>Среднее количество дизлайков на фотографии: {{getForUserStats.downvotes_avg}}</li>
