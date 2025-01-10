@@ -12,6 +12,7 @@
       </ul>
       <p>Данный фронт был сделан для более удобного просмотра работ по разным авторам. Все права на фотографии принадлежат их авторам, ссылки на исходные сообщения и по возможности на аккаунты авторов прилагаются.</p>
       <p><router-link to="/stats">Немного статистики</router-link></p>
+      <p style="font-size:0.7em"><a href="/photo_book_anniversary5.pdf" target="_blank">Миникнига в честь пятилетия</a> (<a href="https://online.fliphtml5.com/aenum/tcyv/" target="_blank">Листалка</a>) </p>
 
       <p>Все претензии кидать в <a href="https://t.me/zyuhel" target="_blank">@zyuhel</a></p>
       <hr>
