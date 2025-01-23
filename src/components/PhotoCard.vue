@@ -4,6 +4,8 @@ defineProps<{
   item: object, show_detail: boolean, for_calendar: boolean
 }>()
 
+import config from './config';
+const imageDomain = config.imageHost.domain;
 
 function getCurrentDay() {
   let startDate = new Date('2019-12-01');
@@ -19,13 +21,13 @@ function getCurrentDay() {
 
         <div class="uk-card-media-top">
           <a class="lightbox-link"
-             :href="`https://f365.zyuhel.ru${item.image_url}`" :data-type="(item.is_video)?'video':'image'"
+             :href="`${imageDomain}${item.image_url}`" :data-type="(item.is_video)?'video':'image'"
              :style="`min-height:${item.resizedHeight-10}px;display:block; `" :data-caption="`<span>День ${item.day_number} - </span><span>${item.username}</span>, <a href='https://t.me/factory365/${item.message_id}' >Пост в канале</a>`"
           >
             <video v-if="item.is_video" :src="item.image_url"  controls="true"></video>
             <img v-else
               loading='lazy'
-              :src="`https://f365.zyuhel.ru${item.image_url}`"
+              :src="`${imageDomain}${item.image_url}`"
           ></a></div>
         <div class="uk-card-body uk-padding-remove-top uk-padding-remove-bottom">
           <div v-if="show_detail && item.place && item.place < 4" style="background-color: rgba(68, 68, 68,0.5);

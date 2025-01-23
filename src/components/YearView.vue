@@ -6,7 +6,8 @@ const props = defineProps(['year'])
 
 const store = useF365Store();
 
-
+import config from './config';
+const imageDomain = config.imageHost.domain;
 
 function getStyle(item) {
   let num = item.width*200/item.height
@@ -175,10 +176,10 @@ img {
     <div v-for="item in getItems" class=" uk-flex" :key="item.message_id" :style="getStyle(item)">
       <i :style="getBottomPadding(item)"></i>
       <a class="lightbox-link"
-         :href="`https://f365.zyuhel.ru${item.image_url}`" :data-type="(item.is_video)?'video':'image'"
+         :href="`${imageDomain}${item.image_url}`" :data-type="(item.is_video)?'video':'image'"
          :style="`min-height:${item.resizedHeight-10}px;display:block; `" :data-caption="`<span>День ${item.day_number} - </span><span>${item.username}</span>, <a href='https://t.me/factory365/${item.message_id}' >Пост в канале</a>`"
       >
-      <img :src="`https://f365.zyuhel.ru/${item.image_url}`" loading="lazy" alt="">
+      <img :src="`${imageDomain}/${item.image_url}`" loading="lazy" alt="">
       </a>
     </div>
   </section>

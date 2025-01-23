@@ -2,6 +2,10 @@ import {ref, computed, h} from 'vue'
 import { defineStore } from 'pinia'
 import axios  from 'axios'
 import { photoFlexLayout } from 'photo-flex-layout';
+import config from './config';
+
+const apiDomain = config.api.baseUrl
+const imageDomain = config.imageHost.domain;
 export const useF365Store = defineStore('f365', {
   state: () => ({
     currentDay: [],
@@ -73,7 +77,7 @@ export const useF365Store = defineStore('f365', {
       const entries = state.currentDay
       const outer = []
       entries.forEach( element => {
-        outer.push({"src": 'https://f365.zyuhel.ru'+element.image_url, original:element, description: element.hash,download: true})
+        outer.push({"src": imageDomain+element.image_url, original:element, description: element.hash,download: true})
       })
       return outer
     },
@@ -99,64 +103,64 @@ export const useF365Store = defineStore('f365', {
   },
   actions: {
     async getMost() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_participants')
+      const { data } = await axios (apiDomain + '/api/stats/most_participants')
       this.stats.max_participants = data.rows
     },
     async getLeast() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/least_participants')
+      const { data } = await axios (apiDomain + '/api/stats/least_participants')
       this.stats.least_participants = data.rows
     },
     async getLongest() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest')
+      const { data } = await axios (apiDomain + '/api/stats/longest')
       this.stats.longest_streaks = data.rows
     },
     async getDaysPart() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/days_participants')
+      const { data } = await axios (apiDomain + '/api/stats/days_participants')
       this.stats.days_participants = data.rows
     },
     async getLongestWins() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest_win')
+      const { data } = await axios (apiDomain + '/api/stats/longest_win')
       this.stats.longest_win = data.rows
     },
     async getMostPhotos() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_photos')
+      const { data } = await axios (apiDomain + '/api/stats/most_photos')
       this.stats.most_photos = data.rows
     },
     async getLongestLeader() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/longest_leader')
+      const { data } = await axios (apiDomain + '/api/stats/longest_leader')
       this.stats.longest_leader = data.rows
     },
     async getFinishers() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/finishers')
+      const { data } = await axios (apiDomain + '/api/stats/finishers')
       this.stats.finishers = data.rows
     },
     async getMostLeader() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_leader')
+      const { data } = await axios (apiDomain + '/api/stats/most_leader')
       this.stats.most_leader = data.rows
     },
     async getMostWin() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_win')
+      const { data } = await axios (apiDomain + '/api/stats/most_win')
       this.stats.most_win = data.rows
     },
     async getAverageUpvotes() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/average_upvotes')
+      const { data } = await axios (apiDomain + '/api/stats/average_upvotes')
       this.stats.average_upvotes = data.rows
     },
     async getAvgs() {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/avgs')
+      const { data } = await axios (apiDomain + '/api/stats/avgs')
       this.stats.avgs = data
     },
     async getFirst( interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/firstplaces?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/firstplaces?interval=' + interval)
       this.firsters =  data.rows
     },
     async getPrizes( interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/prizeplaces?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/prizeplaces?interval=' + interval)
       this.firsters =  data.rows
     },
     async getColor( color: string, interval?: string) {
       if (!interval) interval='';
-      const { data } = await axios ('https://f365.zyuhel.ru/api/images_by_color?color='+color+'&interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/images_by_color?color='+color+'&interval=' + interval)
       this.colored =  data.rows
     },
     async resetPeriodStats() {
@@ -180,43 +184,43 @@ export const useF365Store = defineStore('f365', {
       }
     },
     async getBestStatsForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/best_works?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/best_works?interval=' + interval)
       return data.rows
     },
     async getWorseStatsForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/worst_works?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/worst_works?interval=' + interval)
       return data.rows
     },
     async getControversialStatsForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/controversial_works?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/controversial_works?interval=' + interval)
       return data.rows
     },
     async getMostForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_participants?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/most_participants?interval=' + interval)
       return data.rows
     },
     async getLeastForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/least_participants?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/least_participants?interval=' + interval)
       return data.rows
     },
     async getMostPhotosForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_photos?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/most_photos?interval=' + interval)
       return data.rows
     },
     async getMostLeaderForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_leader?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/most_leader?interval=' + interval)
       return data.rows
     },
     async getMostWinForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/most_win?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/most_win?interval=' + interval)
       return data.rows
     },
     async getAverageUpvotesForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/average_upvotes?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/average_upvotes?interval=' + interval)
       return data.rows
     },
     async getAvgsForInterval(interval: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/stats/avgs?interval=' + interval)
+      const { data } = await axios (apiDomain + '/api/stats/avgs?interval=' + interval)
       return data
     },
     async getPeriodStats(interval: string) {
@@ -266,7 +270,7 @@ export const useF365Store = defineStore('f365', {
     // since we rely on `this`, we cannot use an arrow function
     async getBest(limit: any, seed: number) {
       if (!limit) limit = 20
-      const { data } = await axios ('https://f365.zyuhel.ru/api/best?limit=' + limit + '&seed='+seed)
+      const { data } = await axios (apiDomain + '/api/best?limit=' + limit + '&seed='+seed)
       this.best = data.rows
     },
     async sortBy(field: string, sortAsc: boolean) {
@@ -293,14 +297,14 @@ export const useF365Store = defineStore('f365', {
     },
     async getForUser(user: string) {
       this.currentUser = [];
-      const { data } = await axios ('https://f365.zyuhel.ru/api/username/' + user)
+      const { data } = await axios (apiDomain + '/api/username/' + user)
       this.currentUser = data.rows
       this.currentUserLinks = data.links
       await this.getForUserStats(user)
     },
     async getForUserStats(user: string) {
       this.currentUserStats = {};
-      const { data } = await axios ('https://f365.zyuhel.ru/api/username/' + user + '/stats')
+      const { data } = await axios (apiDomain + '/api/username/' + user + '/stats')
       this.currentUserStats = data
     },
     async searchFor(username: string) {
@@ -308,11 +312,11 @@ export const useF365Store = defineStore('f365', {
           this.searchResults=[];
           return;
       }
-      const { data } = await axios ('https://f365.zyuhel.ru/api/searchuser/' + username)
+      const { data } = await axios (apiDomain + '/api/searchuser/' + username)
       this.searchResults = data.rows
     },
     async getForDay(date: string) {
-      const { data } = await axios ('https://f365.zyuhel.ru/api/day/' + date)
+      const { data } = await axios (apiDomain + '/api/day/' + date)
       this.currentDay = data.rows
     },
   }
