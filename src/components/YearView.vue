@@ -6,7 +6,7 @@ const props = defineProps(['year'])
 
 const store = useF365Store();
 
-import config from './config';
+import config from '@/config';
 const imageDomain = config.imageHost.domain;
 
 function getStyle(item) {

@@ -4,7 +4,7 @@ defineProps<{
   item: object, show_detail: boolean, for_calendar: boolean
 }>()
 
-import config from './config';
+import config from '@/config';
 const imageDomain = config.imageHost.domain;
 
 function getCurrentDay() {

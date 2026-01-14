@@ -5,7 +5,7 @@ import PhotoCard from "@/components/PhotoCard.vue";
 const props = defineProps(['month'])
 
 const store = useF365Store();
-import config from './config';
+import config from '@/config';
 const imageDomain = config.imageHost.domain;
 
 

@@ -2,7 +2,7 @@ import {ref, computed, h} from 'vue'
 import { defineStore } from 'pinia'
 import axios  from 'axios'
 import { photoFlexLayout } from 'photo-flex-layout';
-import config from './config';
+import config from '@/config';
 
 const apiDomain = config.api.baseUrl
 const imageDomain = config.imageHost.domain;

@@ -1,18 +1,51 @@
 <script setup lang="ts">
   import { useF365Store } from "@/stores/f365";
   import { useRoute } from 'vue-router'
+  import UIkit from 'uikit'
 
 
   import { ref, onMounted, computed, watch } from "vue";
+  import flatPickr from 'vue-flatpickr-component';
+  import 'flatpickr/dist/flatpickr.css';
   import MasonryView from "@/components/MasonryView.vue";
   import {RouterLink} from "vue-router";
   const route = useRoute()
+  const usertabs = ref(null)
+  const filter = ref ({
+    date_start: null,
+    date_end: null,
+    active: false,
+  })
+
+
   if (route.query && !route.query.sort) route.query.sort='early'
   let sort = ref(route.query.sort)
   const props = defineProps(['user'])
   const store = useF365Store();
+
+  function inDateRange(itemDate, { date_start, date_end }) {
+    const date = new Date(itemDate)
+
+    if (date_start) {
+      const start = new Date(date_start)
+      if (date < start) return false
+    }
+
+    if (date_end) {
+      const end = new Date(date_end)
+      if (date > end) return false
+    }
+
+    return true
+  }
+
   const getForUser = computed(() => {
-      return store.getEntriesForUser;
+    if (filter.value.active) {
+      return store.getEntriesForUser.filter(item =>
+          inDateRange(item.date, filter.value)
+      )
+    }
+    return store.getEntriesForUser;
   });
   const getForUserStats = computed(() => {
     return store.getStatsForUser;
@@ -33,7 +66,12 @@
   function setTitle() {
     document.title = 'F365 - Работы пользователя ' + props.user
   }
-
+  function apply_filter() {
+    UIkit.tab(usertabs.value).show(0);
+    if (!filter.value.active) {
+      filter.value.active = true;
+    }
+  }
   async function sortByParam(argument) {
     switch (argument) {
       case 'early':
@@ -155,9 +193,10 @@ img {
       <a v-if="user[0]=='@'" class="uk-icon-button" target="_blank" :href="`https://t.me/${user.substring(1)}`" uk-tooltip="Написать в Telegram"><font-awesome-icon icon="fa-brands fa-telegram" /></a><span v-if="user[0]=='@' && getForUserLinks.length>0"> | </span>
       <a v-for="link in getForUserLinks" :key="link.link" class="uk-icon-button" target="_blank" :uk-tooltip="link.tooltip" :href="link.link"><font-awesome-icon :icon="link.link_type" /></a>
     </span></h3>
-    <ul uk-tab>
+    <ul uk-tab ref="usertabs">
       <li><a href="#photos">Фотографии</a></li>
       <li><a href="#stats">Статистика</a></li>
+      <li><a  class="uk-icon-button" uk-icon="settings" uk-tooltip="Фильтр"></a></li>
     </ul>
     <ul class="uk-switcher uk-margin">
     <li>
@@ -184,6 +223,39 @@ img {
         </ul>
 
      </li>
+      <li>
+        Фильтровать по дате:
+        <form class="uk-form-horizontal" @submit.prevent="apply_filter">
+          <div>
+            <label class="uk-form-label">От</label>
+            <div class="uk-form-controls"><flatPickr
+                v-model="filter.date_start"
+                placeholder="От"
+                class="uk-input uk-form-width-small uk-form-width-medium"
+                :config="{
+                  minDate:  '2019-12-01',
+                  maxDate: filter.date_end || new Date(),
+              }"
+            /></div>
+          </div>
+          <div>
+            <div class="uk-form-label">До </div>
+            <div class="uk-form-controls uk-form-controls-text"></div>
+            <div class="uk-form-controls"><flatPickr
+                v-model="filter.date_end"
+                placeholder="До"
+                class="uk-input uk-form-width-small uk-form-width-medium"
+                :config="{
+                  minDate: filter.date_start || '2019-12-01',
+                  maxDate:  new Date(),
+              }"
+            />
+            </div></div>
+          <div><button class="uk-button uk-button-default uk-button-small" >Фильтровать</button>
+          </div>
+        </form>
+
+      </li>
     </ul>
   </main>
 </template>
